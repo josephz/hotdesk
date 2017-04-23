@@ -1,0 +1,45 @@
+﻿@model HotDesk.Models.WpModel
+
+@{
+    ViewBag.Title = "WpDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Work Point @Model.Level-@Model.Id</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4></h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        @if (Model.Available)
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Take It" class="btn btn-default btn-success" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Set It Free" class="btn btn-default btn-warning" />
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Floor", "FloorDetails", new { id = Model.Level })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

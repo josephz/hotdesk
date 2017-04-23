@@ -1,0 +1,26 @@
+﻿@model HotDesk.Models.FloorModel
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>On Level @Model.Level</h2>
+
+@if (Model.AvailableWP == null || !Model.AvailableWP.Any())
+{
+    <h4>No available work point at the moment.</h4>
+}
+else
+{
+    <h4>The following work points are free at the moment:</h4>
+    <div class="list-group">
+        @foreach (var num in Model.AvailableWP)
+        {
+            @Html.ActionLink(string.Format("{0}.{1}", Model.Level, num.ToString("D3")), "WpDetail", new { id = num }, new {@class = "list-group-item" })
+        }
+    </div>
+}
+<p>
+    @Html.ActionLink("Back to Home", "Index", "Home")
+</p>

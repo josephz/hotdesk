@@ -1,0 +1,16 @@
+﻿@model HotDesk.Models.WpModel
+
+@{
+    ViewBag.Title = "Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Confirmation</h2>
+@if (Model.Available)
+{
+    <p>Thanks for freeing up Work Point @string.Format("{0}.{1}", Model.Level, Model.Id.ToString("D3")).</p>
+}
+else
+{
+    <p>Work Point @string.Format("{0}.{1}", Model.Level, Model.Id.ToString("D3")) has been taken.</p>
+}
