@@ -17,7 +17,7 @@ else
     <div class="list-group">
         @foreach (var num in Model.AvailableWP)
         {
-            @Html.ActionLink(string.Format("{0}.{1}", Model.Level, num.ToString("D3")), "WpDetail", new { id = num }, new {@class = "list-group-item" })
+            @Html.ActionLink(string.Format("{0}.{1}", Model.Level, num.ToString("D3")), "WpDetail", new { id = num + Model.Level*1000 }, new {@class = "list-group-item" })
         }
     </div>
 }
