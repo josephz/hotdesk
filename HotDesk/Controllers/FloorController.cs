@@ -24,9 +24,8 @@ namespace HotDesk.Controllers
             var model = new WpModel()
             {
                 Id = id,
-                Level = id / 1000,
-                Num = id % 1000
             };
+            UpdateWpModelProperty(ref model);
 
             // See if the work point is on the available list
             var data = FileHelper.GetAppData();
@@ -45,14 +44,21 @@ namespace HotDesk.Controllers
 
                 // Set the work point
                 FileHelper.UpdateAppData(model.Id, model.Available);
+                UpdateWpModelProperty(ref model);
             }
 
             return View("Confirmation", model);
         }
 
-        public ActionResult Confirmation(WpModel model)
+        //public ActionResult Confirmation(WpModel model)
+        //{
+        //    return View(model);
+        //}
+
+        private void UpdateWpModelProperty(ref WpModel model)
         {
-            return View(model);
+            model.Level = model.Id / 1000;
+            model.Num = model.Id % 1000;
         }
     }
 }

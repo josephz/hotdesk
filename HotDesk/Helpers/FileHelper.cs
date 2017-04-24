@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace HotDesk.Helpers
 {
@@ -10,25 +11,23 @@ namespace HotDesk.Helpers
 
         public static List<int> GetAppData()
         {
-            var result = new List<int>();
-            IEnumerable<string> data;
+            string data;
 
             try
             {
-                data = File.ReadLines(pathToData_App);
+                data = File.ReadAllText(pathToData_App).Trim();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
 
-            foreach (var line in data)
-            {
-                if (!string.IsNullOrEmpty(line))
-                    result.Add(int.Parse(line));
-            }
+            var values = data.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                            .Where(sValue => !string.IsNullOrWhiteSpace(sValue))
+                            .Select(sValue => Int32.Parse(sValue.Trim()))
+                            .ToList();
 
-            return result;
+            return values;
         }
 
         public static void UpdateAppData(int num, bool isAvailable)
@@ -36,13 +35,15 @@ namespace HotDesk.Helpers
             try
             {
                 string text = File.ReadAllText(pathToData_App);
+                string entry = num + ",";
                 if (isAvailable)
-                {                    
-                    text = text + num + "\r\n";
+                {
+                    if (!text.Contains(entry))
+                        text = text + entry;
                 }
                 else
                 {
-                    text = text.Replace(num.ToString(), string.Empty);
+                    text = text.Replace(entry, string.Empty);
                 }
                 File.WriteAllText(pathToData_App, text);
             }
