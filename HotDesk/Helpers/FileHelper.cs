@@ -22,12 +22,10 @@ namespace HotDesk.Helpers
                 throw ex;
             }
 
-            var values = data.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                            .Where(sValue => !string.IsNullOrWhiteSpace(sValue))
-                            .Select(sValue => Int32.Parse(sValue.Trim()))
-                            .ToList();
-
-            return values;
+            return data.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                       .Where(sValue => !string.IsNullOrWhiteSpace(sValue))
+                       .Select(sValue => Int32.Parse(sValue.Trim()))
+                       .ToList();
         }
 
         public static void UpdateAppData(int num, bool isAvailable)

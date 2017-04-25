@@ -129,6 +129,8 @@
     <Compile Include="Models\FloorModel.cs" />
     <Compile Include="Models\WpModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\WpRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\data.txt" />

@@ -1,19 +1,20 @@
 ﻿using HotDesk.Models;
 using System.Web.Mvc;
 using System.Linq;
-using HotDesk.Helpers;
+using HotDesk.Repository;
 
 namespace HotDesk.Controllers
 {
     public class FloorController : Controller
     {
+        private WpRepository WpRepo = new WpRepository();
+
         public ActionResult FloorDetails(int id)
         {
             var model = new FloorModel(id);
 
             // Get available work points
-            var data = FileHelper.GetAppData();
-            model.AvailableWP = data.Where(p => p / 1000 == id).Select(p => p % 1000).ToList();
+            model.AvailableWP = WpRepo.GetWpListByLevel(id).ToList();
 
             return View(model);
         }
@@ -28,8 +29,7 @@ namespace HotDesk.Controllers
             UpdateWpModelProperty(ref model);
 
             // See if the work point is on the available list
-            var data = FileHelper.GetAppData();
-            model.Available = data.Contains(id);
+            model.Available = WpRepo.SearchFor(wp => wp.Id == id).Any();
 
             return View(model);
         }
@@ -43,7 +43,7 @@ namespace HotDesk.Controllers
                 model.Available = !model.Available;
 
                 // Set the work point
-                FileHelper.UpdateAppData(model.Id, model.Available);
+                WpRepo.SetWpAvailability(model.Id, model.Available);
                 UpdateWpModelProperty(ref model);
             }
 
